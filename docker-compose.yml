@@ -1,0 +1,19 @@
+services:
+  website-dev:
+    # On se base sur le Dockerfile existant, mais on s'arrête à l'étape "builder"
+    # qui contient l'environnement Ruby et les dépendances.
+    build:
+      context: .
+      target: builder
+    # On monte le répertoire courant dans le conteneur pour voir les changements en direct.
+    volumes:
+      - .:/usr/src/app
+      # On utilise un volume pour garder le cache des gems et accélérer les lancements.
+      - gem_cache:/usr/local/bundle
+    ports:
+      - "4000:4000"
+    # Commande pour lancer le serveur de développement Jekyll qui surveille les fichiers.
+    command: sh -c "bundle install && jekyll serve --watch --force_polling --host 0.0.0.0"
+
+volumes:
+  gem_cache:

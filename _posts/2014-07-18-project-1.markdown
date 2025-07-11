@@ -1,15 +1,16 @@
 ---
-title: Dreams
-subtitle: Website Design
+title: Stock
+subtitle: Application de gestion de stock
 layout: default
 modal-id: 1
-date: 2014-07-18
-img: dreams.png
-thumbnail: dreams-thumbnail.png
-alt: image-alt
-project-date: April 2014
-client: Start Bootstrap
-category: Web Development
-description: Lorem ipsum dolor sit amet, usu cu alterum nominavi lobortis. At duo novum diceret. Tantas apeirian vix et, usu sanctus postulant inciderint ut, populo diceret necessitatibus in vim. Cu eum dicam feugiat noluisse.
+date: January 2025
+img: stock.jpg
+thumbnail: stock-thumbnail.jpg
+alt: "Capture d'écran du projet stock"
+project-date: January 2025
+client: "R&P Services"
+app_url: "https://stock-neodelphis-48e746f6519b.herokuapp.com/"
+category: Application Development
+description: Développement d'une application dédiée pour gérer les stocks d'une entreprise du bâtiment. 
 
 ---

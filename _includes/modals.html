@@ -18,15 +18,20 @@
                             <p>{{ post.description }}</p>
                             <ul class="list-inline item-details">
                                 <li>Client:
-                                    <strong><a href="http://startbootstrap.com">{{ post.client }}</a>
+                                    <strong>
+                                        {% if post.app_url %}
+                                            <a href="{{ post.app_url }}" target="_blank" rel="noopener noreferrer">{{ post.client }}</a>
+                                        {% else %}
+                                            {{ post.client }}
+                                        {% endif %}
                                     </strong>
                                 </li>
                                 <li>Date:
-                                    <strong><a href="http://startbootstrap.com">{{ post.project-date }}</a>
+                                    <strong>{{ post.project-date }}
                                     </strong>
                                 </li>
                                 <li>Service:
-                                    <strong><a href="http://startbootstrap.com">{{ post.category }}</a>
+                                    <strong>{{ post.category }}
                                     </strong>
                                 </li>
                             </ul>
