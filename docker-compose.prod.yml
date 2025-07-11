@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  website:
+    # Construit l'image en utilisant le Dockerfile à la racine du projet.
+    build: .
+    container_name: neodelphis_website_prod
+    restart: unless-stopped
+    ports:
+      # Mappe le port 80 du VPS (HTTP) au port 80 du conteneur Nginx.
+      - "80:80"
+
