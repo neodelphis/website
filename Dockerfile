@@ -31,7 +31,7 @@ RUN rm -f /etc/nginx/conf.d/default.conf
 COPY nginx/conf.d/neodelphis.conf /etc/nginx/conf.d/
 
 # Optionnel : Pour copier directement les fichiers du site (si pas de volume monté)
-COPY _site/ /usr/share/nginx/html/
+# COPY _site/ /usr/share/nginx/html/
 
 # Installer Certbot (si pas déjà présent dans l'image)
 RUN apk add --no-cache certbot
