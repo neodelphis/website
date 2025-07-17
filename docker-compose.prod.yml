@@ -5,6 +5,10 @@ services:
     container_name: neodelphis_website_prod
     restart: unless-stopped
     ports:
-      # Mappe le port 80 du VPS (HTTP) au port 80 du conteneur Nginx.
       - "80:80"
+      - "443:443"
+    volumes:
+      - certbot-data:/etc/letsencrypt
 
+volumes:
+  certbot-data:
