@@ -2,6 +2,8 @@
 FROM jekyll/builder:4 AS builder
 WORKDIR /usr/src/app
 COPY . .
+# On donne la propriété des fichiers à l'utilisateur 'jekyll' du conteneur
+RUN chown -R jekyll:jekyll .
 RUN bundle install && jekyll build
 
 # Stage 2: Serve the static files with Nginx
