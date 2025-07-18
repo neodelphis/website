@@ -1,7 +1,9 @@
+# Fichiers de configuration Docker et Git
+.dockerignore
 .git
 .gitignore
+
+# Fichiers générés par Bundler et Jekyll
+Gemfile.lock
 _site/
 vendor/
-Dockerfile
-README.md
-
