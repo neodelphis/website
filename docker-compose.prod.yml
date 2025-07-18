@@ -1,14 +1,13 @@
 services:
   website:
-    # Construit l'image en utilisant le Dockerfile à la racine du projet.
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
     container_name: neodelphis_website_prod
-    restart: unless-stopped
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - certbot-data:/etc/letsencrypt
+    restart: always
+    networks:
+      - proxy-net
 
-volumes:
-  certbot-data:
+networks:
+  proxy-net:
+    external: true
