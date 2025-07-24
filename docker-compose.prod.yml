@@ -3,7 +3,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.prod
-    container_name: neodelphis_website_prod
+    container_name: website-nginx
     restart: always
     networks:
       - proxy-net

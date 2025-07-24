@@ -24,19 +24,9 @@ FROM nginx:stable-alpine
 # Copie des fichiers du site construits depuis l'étape précédente vers le répertoire par défaut de Nginx
 COPY --from=builder /usr/src/app/_site /usr/share/nginx/html
 
-# Supprimer la configuration par défaut de Nginx
-RUN rm -f /etc/nginx/conf.d/default.conf
+# Le conteneur n'a besoin que d'exposer le port 80 pour le reverse proxy.
+# La configuration Nginx par défaut est suffisante pour servir les fichiers statiques.
+EXPOSE 80
 
-# Copier votre fichier de configuration Nginx
-COPY nginx/conf.d/neodelphis.conf /etc/nginx/conf.d/
-
-# Optionnel : Pour copier directement les fichiers du site (si pas de volume monté)
-# COPY _site/ /usr/share/nginx/html/
-
-# Installer Certbot (si pas déjà présent dans l'image)
-RUN apk add --no-cache certbot
-
-EXPOSE 80 443
-
-# Commande pour démarrer Nginx (et Certbot si nécessaire, voir point D)
+# Commande pour démarrer Nginx en avant-plan.
 CMD ["nginx", "-g", "daemon off;"]
