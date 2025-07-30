@@ -4,6 +4,5 @@
 .gitignore
 
 # Fichiers générés par Bundler et Jekyll
-Gemfile.lock
 _site/
 vendor/

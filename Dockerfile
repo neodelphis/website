@@ -1,18 +1,19 @@
 # --- Étape 1: Build ---
-# Utilisation d'une image Ruby pour construire le site Jekyll
-FROM ruby:3.4.4-alpine AS builder
+# Utilisation de l'image officielle Jekyll pour un environnement optimisé et sécurisé.
+# Cette image inclut déjà Ruby, Bundler et les dépendances de build nécessaires.
+FROM jekyll/builder:4 AS builder
 
-WORKDIR /usr/src/app
-
-# Installation des dépendances de build
-RUN apk add --no-cache build-base
+# Le WORKDIR par défaut est /usr/src/app et l'utilisateur est 'jekyll'.
 
 # Copie du Gemfile et installation des gems pour une gestion de cache optimisée
-COPY Gemfile Gemfile.lock ./
-RUN gem install bundler && bundle install --jobs=4 --retry=3
+# L'option --chown garantit que les fichiers appartiennent à l'utilisateur non-root 'jekyll'.
+# Copier ces fichiers en premier permet de tirer parti du cache Docker :
+# si seul le code du site change, cette étape ne sera pas ré-exécutée.
+COPY --chown=jekyll:jekyll Gemfile Gemfile.lock ./
+RUN bundle install --jobs=4 --retry=3
 
 # Copie du reste du code source du site
-COPY . .
+COPY --chown=jekyll:jekyll . .
 
 # Construction du site Jekyll. Les fichiers seront générés dans /usr/src/app/_site
 RUN jekyll build
@@ -24,8 +25,7 @@ FROM nginx:stable-alpine
 # Copie des fichiers du site construits depuis l'étape précédente vers le répertoire par défaut de Nginx
 COPY --from=builder /usr/src/app/_site /usr/share/nginx/html
 
-# Le conteneur n'a besoin que d'exposer le port 80 pour le reverse proxy.
-# La configuration Nginx par défaut est suffisante pour servir les fichiers statiques.
+# Exposition du port 80 pour Nginx.
 EXPOSE 80
 
 # Commande pour démarrer Nginx en avant-plan.

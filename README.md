@@ -1,4 +1,17 @@
 
+Développement / Production
+==========================
+
+Pour le développement : `docker compose up` utilise `docker-compose.yml` qui cible l'étape `builder` pour avoir le rechargement à chaud.
+Pour la production : `docker compose -f docker-compose.prod.yml up --build -d` utilise `docker-compose.prod.yml` qui construit l'image finale optimisée avec Nginx.
+Votre projet est maintenant plus propre et suit les meilleures pratiques modernes de Docker. Bravo !
+
+Votre Dockerfile unifié utilise une construction multi-étapes (multi-stage build).
+
+Une première étape (`builder`) installe les dépendances et construit le site Jekyll.
+Une seconde étape (l'image `nginx`) copie uniquement le site statique construit pour le servir.
+Lorsque vous lancez un build sans spécifier de target (comme c'est le cas pour la production), Docker construit par défaut la toute dernière étape du Dockerfile. C'est exactement ce que nous voulons pour la production : une image Nginx légère avec uniquement les fichiers du site.
+
 The Correct Way to Deploy
 ==========================
 

@@ -2,7 +2,6 @@ services:
   website:
     build:
       context: .
-      dockerfile: Dockerfile.prod
     container_name: website-nginx
     restart: always
     networks:
