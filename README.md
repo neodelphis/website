@@ -3,7 +3,7 @@ Développement / Production
 ==========================
 
 Pour le développement : `docker compose up` utilise `docker-compose.yml` qui cible l'étape `builder` pour avoir le rechargement à chaud.
-Pour la production : `docker compose -f docker-compose.prod.yml up --build -d` utilise `docker-compose.prod.yml` qui construit l'image finale optimisée avec Nginx.
+Pour la production : `docker compose -f docker-compose.prod.yml up -d --force-recreate` au lieu de `docker compose -f docker-compose.prod.yml up --build -d`. Utilise `docker-compose.prod.yml` pour construire l'image finale optimisée avec Nginx.
 Votre projet est maintenant plus propre et suit les meilleures pratiques modernes de Docker. Bravo !
 
 Votre Dockerfile unifié utilise une construction multi-étapes (multi-stage build).
