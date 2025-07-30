@@ -1,5 +1,7 @@
-url: 
-baseurl: 
+# L'URL complète de votre site en production. Essentiel pour les plugins comme jekyll-seo-tag.
+url: "https://www.neodelphis.com"
+# Laissez vide si votre site est à la racine du domaine.
+baseurl: ""
 
 # Site settings
 title: Neodelphis
