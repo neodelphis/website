@@ -16,7 +16,9 @@ RUN bundle install --jobs=4 --retry=3
 COPY --chown=jekyll:jekyll . .
 
 # Construction du site Jekyll. Les fichiers seront générés dans /usr/src/app/_site
-RUN jekyll build
+# Utiliser "bundle exec" est une bonne pratique pour s'assurer que la version de Jekyll
+# définie dans le Gemfile.lock est bien celle qui est utilisée.
+RUN bundle exec jekyll build
 
 # --- Étape 2: Serve ---
 # Utilisation d'une image Nginx légère pour servir les fichiers statiques
