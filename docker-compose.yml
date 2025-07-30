@@ -12,8 +12,10 @@ services:
       - gem_cache:/usr/local/bundle
     ports:
       - "4000:4000"
-    # Commande pour lancer le serveur de développement Jekyll qui surveille les fichiers.
-    command: sh -c "bundle install && jekyll serve --watch --force_polling --host 0.0.0.0"
+    # La commande se concentre sur le lancement du serveur.
+    # L'installation des gems est gérée lors du build de l'image.
+    # Si vous modifiez votre Gemfile, il suffira de lancer `docker compose build`.
+    command: jekyll serve --watch --force_polling --host 0.0.0.0
 
 volumes:
   gem_cache:
