@@ -1,74 +1,89 @@
+# Site Web Neodelphis
 
-Développement / Production
-==========================
+Ce dépôt contient le code source du site web [www.neodelphis.com](https://www.neodelphis.com), un site statique généré avec Jekyll et servi via Nginx.
 
-Pour le développement : `docker compose up` utilise `docker-compose.yml` qui cible l'étape `builder` pour avoir le rechargement à chaud.
-Pour la production : `docker compose -f docker-compose.prod.yml up -d --force-recreate` au lieu de `docker compose -f docker-compose.prod.yml up --build -d`. Utilise `docker-compose.prod.yml` pour construire l'image finale optimisée avec Nginx.
-Votre projet est maintenant plus propre et suit les meilleures pratiques modernes de Docker. Bravo !
+## Prérequis
 
-Votre Dockerfile unifié utilise une construction multi-étapes (multi-stage build).
+*   Docker
+*   Docker Compose
 
-Une première étape (`builder`) installe les dépendances et construit le site Jekyll.
-Une seconde étape (l'image `nginx`) copie uniquement le site statique construit pour le servir.
-Lorsque vous lancez un build sans spécifier de target (comme c'est le cas pour la production), Docker construit par défaut la toute dernière étape du Dockerfile. C'est exactement ce que nous voulons pour la production : une image Nginx légère avec uniquement les fichiers du site.
+## Environnement de Développement
 
-The Correct Way to Deploy
-==========================
+L'environnement de développement est conçu pour le rechargement à chaud, vous permettant de voir vos modifications en direct.
 
+1.  **Lancer le serveur de développement :**
+    ```bash
+    docker compose up
+    ```
+    Cette commande va :
+    *   Construire l'image de développement (basée sur l'étape `builder` du `Dockerfile`).
+    *   Installer les dépendances Ruby (gems).
+    *   Lancer le serveur Jekyll sur http://localhost:4000.
 
-```bash
-# 1. Get the latest version of your application code
-git pull
+2.  **Accéder au site :**
+    Ouvrez votre navigateur et allez sur [http://localhost:4000](http://localhost:4000).
 
-# Eventuellement suppression conteneur et image si du contenu statique n'est pas pris en compte (par exemple des images)
+3.  **Arrêter le serveur :**
+    Appuyez sur `Ctrl+C` dans le terminal, puis exécutez :
+    ```bash
+    docker compose down
+    ```
 
+**Note sur le fonctionnement :** Le fichier `docker-compose.yml` monte le répertoire courant du projet dans le conteneur. Le serveur Jekyll surveille les changements de fichiers et reconstruit le site automatiquement.
 
-# 2. Rebuild the image and restart the service in one command
-docker compose -f docker-compose.prod.yml up -d --build
+## Déploiement en Production
 
+La production utilise une image Docker optimisée contenant Nginx et uniquement les fichiers statiques du site.
 
-# Alternative "Clean Slate" Workflow
-# 1. Get the latest version of your application code
-git pull
+1.  **Assurez-vous que le réseau `proxy-net` existe.** Ce site est conçu pour être déployé derrière un reverse proxy.
+    ```bash
+    docker network create proxy-net
+    ```
 
-# 2. Stop and remove the old containers and networks
-docker compose -f docker-compose.prod.yml down
+2.  **Déployer ou mettre à jour le site :**
+    ```bash
+    docker compose -f docker-compose.prod.yml up -d --build
+    ```
+    Cette commande va :
+    *   Construire l'image de production complète (en utilisant la construction multi-étapes du `Dockerfile`).
+    *   Lancer un conteneur Nginx pour servir le site.
 
-# 3. Build the new image and start the service
-docker compose -f docker-compose.prod.yml up -d
+3.  **Arrêter le service de production :**
+    ```bash
+    docker compose -f docker-compose.prod.yml down
+    ```
 
-# Housekeeping: Pruning Old Images
-docker image prune
+## Gestion du Contenu
+
+Le site est basé sur le thème Jekyll "Agency". La plupart du contenu peut être modifié dans des fichiers de configuration ou des répertoires spécifiques.
+
+*   **Configuration générale :**
+    Le fichier `_config.yml` contient les paramètres principaux du site comme le titre, la description, les informations de contact et les profils sociaux.
+
+*   **Portfolio (`_posts`) :**
+    Chaque projet du portfolio est un "post" Jekyll dans le répertoire `_posts`. Suivez la convention de nommage `AAAA-MM-JJ-nom-du-projet.md`. Les images associées se trouvent dans `img/portfolio/`.
+
+*   **Section "Technos" (`_includes/about.html`) :**
+    Le contenu de la timeline des technologies est directement dans le fichier `_includes/about.html`. Les images sont dans `img/about/`.
+
+*   **Section "Team" (`_config.yml`) :**
+    Les informations sur les membres de l'équipe sont définies dans la section `people` du fichier `_config.yml`.
+
+## Structure du projet
+
+```
+.
+├── _includes/         # Partials HTML (ex: about.html)
+├── _layouts/          # Modèles de page Jekyll
+├── _posts/            # Articles du blog / Projets du portfolio
+├── _site/             # (Généré) Site statique final. Non versionné.
+├── css/               # Fichiers CSS additionnels
+├── img/               # Images pour le portfolio, la team, etc.
+├── js/                # Fichiers JavaScript
+├── _config.yml        # Fichier de configuration principal de Jekyll
+├── docker-compose.yml # Configuration Docker pour le développement
+├── docker-compose.prod.yml # Configuration Docker pour la production
+├── Dockerfile         # Instructions pour construire les images Docker
+└── README.md          # Ce fichier
 ```
 
-
-
-Agency Jekyll theme
-====================
-
-Agency theme based on [Agency bootstrap theme ](https://startbootstrap.com/template-overviews/agency/)
-
-# How to use
-
-### Portfolio 
-
-Portfolio projects are in '/_posts'
-
-Images are in '/img/portfolio'
-
-### About
-
-Images are in '/img/about/'
-
-### Team
-
-Team members and info are in '_config.yml'
-
-Images are in '/img/team/'
-
-
-# Demo
-
-View this jekyll theme in action [here](https://y7kim.github.io/agency-jekyll-theme)
-
-For more details, read [documentation](http://jekyllrb.com/)
