@@ -4,5 +4,5 @@
 .gitignore
 
 # Fichiers générés par Bundler et Jekyll
-# _site/
+_site/
 vendor/
