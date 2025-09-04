@@ -6,16 +6,16 @@ services:
       context: .
       target: builder
     # On monte le répertoire courant dans le conteneur pour voir les changements en direct.
+    # Le chemin doit correspondre au WORKDIR de l'image de base (`/srv/jekyll`).
     volumes:
-      - .:/usr/src/app
+      - .:/srv/jekyll
       # On utilise un volume pour garder le cache des gems et accélérer les lancements.
       - gem_cache:/usr/local/bundle
     ports:
       - "4000:4000"
-    # La commande se concentre sur le lancement du serveur.
-    # L'installation des gems est gérée lors du build de l'image.
-    # Si vous modifiez votre Gemfile, il suffira de lancer `docker compose build`.
-    command: jekyll serve --watch --force_polling --host 0.0.0.0
+    # Utiliser "bundle exec" est une bonne pratique pour s'assurer que la version
+    # de Jekyll définie dans le Gemfile.lock est bien celle qui est utilisée.
+    command: bundle exec jekyll serve --watch --force_polling --host 0.0.0.0
 
 volumes:
   gem_cache:
