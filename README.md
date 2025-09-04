@@ -31,6 +31,16 @@ L'environnement de développement est conçu pour le rechargement à chaud, vous
 
 **Note sur le fonctionnement :** Le fichier `docker-compose.yml` monte le répertoire courant du projet dans le conteneur. Le serveur Jekyll surveille les changements de fichiers et reconstruit le site automatiquement.
 
+### Note pour les utilisateurs de Mac Apple Silicon (M1/M2/M3)
+
+Lors du lancement de l'environnement de développement, vous pourriez rencontrer l'avertissement suivant :
+```
+! website-dev The requested image's platform (linux/amd64) does not match the detected host platform (linux/arm64/v8)
+```
+Cet avertissement est normal. L'image de base `jekyll/builder:4` est conçue pour une architecture de processeur `amd64` (Intel/AMD). Sur un Mac avec une puce Apple Silicon (`arm64`), Docker utilise une couche d'émulation (QEMU) pour la faire fonctionner.
+
+**Conséquences :** Les performances peuvent être légèrement réduites (temps de build ou de rechargement plus longs). Cependant, l'application reste parfaitement fonctionnelle pour le développement.
+
 ## Déploiement en Production
 
 La production utilise une image Docker optimisée contenant Nginx et uniquement les fichiers statiques du site.
@@ -86,4 +96,3 @@ Le site est basé sur le thème Jekyll "Agency". La plupart du contenu peut êtr
 ├── Dockerfile         # Instructions pour construire les images Docker
 └── README.md          # Ce fichier
 ```
-
