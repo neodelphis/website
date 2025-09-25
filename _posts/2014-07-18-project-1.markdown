@@ -9,7 +9,7 @@ thumbnail: stock-thumbnail.jpg
 alt: "Capture d'écran du projet stock"
 project-date: June 2025
 client: "R&P Services"
-app_url: "https://stock-neodelphis-48e746f6519b.herokuapp.com/"
+app_url: "https://talia.neodelphis.ovh/"
 category: Application Development
 description: Développement d'une application dédiée pour gérer les stocks d'une entreprise du bâtiment.
 
