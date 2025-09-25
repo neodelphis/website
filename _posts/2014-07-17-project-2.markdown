@@ -9,7 +9,7 @@ thumbnail: talia-thumbnail.jpg
 alt: image-alt
 project-date: April 2021
 client: PoC
-app_url: "https://talia-neodelphis.herokuapp.com/"
+app_url: "https://talia.neodelphis.ovh/"
 category: AI
 description: Exemple d'entraînement et d'usage d'une IA appliquée au traitement automatisé du langage. L'objectif ici est de repérer des éléments spécifiques dans des textes de jurisprudence.
 
